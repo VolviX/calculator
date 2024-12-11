@@ -1,10 +1,17 @@
-function operate(button) {
+// this project just showcases eventhough you have terrible coding skills
+// you'll still get the job done!
 
+function operate(button) {
     if (button.id == 'add') return result = previousValue + currentValue;
     if (button.id == 'subtract') return result = previousValue - currentValue;
     if (button.id == 'multiply') return result = previousValue * currentValue;
     if (button.id == 'divide') return result = previousValue / currentValue;
-    // if (button.id == 'equals') return 
+    if (button.id == 'equals') {
+        if (lastOperator == '/') return result = previousValue / currentValue;
+        if (lastOperator == '*') return result = previousValue * currentValue;
+        if (lastOperator == '-') return result = previousValue - currentValue;
+        if (lastOperator == '+') return result = previousValue + currentValue;
+    }
 }
 
 function display(button) {
@@ -20,7 +27,7 @@ function display(button) {
 
     } else if (previousOperand.textContent == '' && button.classList.contains('operator')) {
         previousValue = currentValue;
-        previousOperand.textContent = previousValue + ' ' + button.textContent;
+        previousOperand.textContent = previousValue;
         currentOperand.textContent = 0;
         currentValue = 0;
         console.log('Operator click: ' + button.textContent);
@@ -28,11 +35,19 @@ function display(button) {
     } else if (previousOperand != '' && button.classList.contains('operator')) {
         console.log('Run Operate for Current: ' + currentValue + ' and Previous: ' + previousValue);
         operate(button);
-        previousOperand.textContent = result + ' ' + button.textContent;
+        previousOperand.textContent = result;
         previousValue = result;
         currentOperand.textContent = 0;
         currentValue = 0;
         console.log('New Current: ' + currentValue + ' New Previous: ' + previousValue);
+    } else if (previousOperand == '' && button.id == 'equals') {
+        // do nothing
+    } else if (previousOperand != '' && button.id == 'equals') {
+        operate(button);
+        previousOperand.textContent = result; // should there be operator sign?
+        previousValue = result;
+        currentOperand.textContent = 0;
+        currentValue = 0;
     }
 }
 
@@ -74,7 +89,5 @@ del.addEventListener('click', () => {
 });
 
 equals.addEventListener('click', () => {
-    // pass
+    display(equals);
 });
-
-// bug: prev value olmadan eşittir çalışmamalı -- çözdüm ama ayrıca dinlemek gerekecek
