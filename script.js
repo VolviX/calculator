@@ -22,12 +22,14 @@ function operate(button) {
 function display(button) {
     if (currentOperand.textContent == 0 && button.classList.contains('number')) {
         currentOperand.textContent = button.textContent;
+        currentValue = parseInt(currentOperand.textContent, 10);
         console.log('Number or decimal clicked as first click: ' + button.textContent);
     } else if (currentOperand.textContent != 0 && button.classList.contains('number')) {
         currentOperand.textContent += button.textContent;
+        currentValue = parseInt(currentOperand.textContent, 10);
         console.log('Number or decimal clicked as non-first click: ' + button.textContent);
-    } else if (previousOperand.textContent == '' && button.classList.contains('operator')) {
-        previousOperand.textContent = currentValue + ' ' + operator.textContent;
+    } else if (button.classList.contains('operator')) {
+        previousOperand.textContent = currentValue + ' ' + button.textContent;
         currentOperand.textContent = 0;
         console.log('Operator clicked ' + button.textContent);
     }
@@ -46,7 +48,6 @@ const operator = document.querySelectorAll('.operator');
 number.forEach(button => {
     button.addEventListener('click', () => {
         display(button);
-        currentValue = parseInt(currentOperand.textContent, 10);
     });
 });
 
@@ -54,7 +55,6 @@ number.forEach(button => {
 operator.forEach(button => {
     button.addEventListener('click', () => {
         display(button);
-        currentValue = parseInt(currentOperand.textContent, 10);
-        operate(button);
+        // operate(button);
     });
 });
