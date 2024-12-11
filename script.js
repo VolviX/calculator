@@ -1,39 +1,38 @@
-const add = (numOne, numTwo) => numOne + numTwo;
-const subtract = (numOne, numTwo) => numOne - numTwo;
-const multiply = (numOne, numTwo) => numOne * numTwo;
-const divide = (numOne, numTwo) => numOne / numTwo;
-
 function operate(button) {
 
-    if (previousOperand.textContent == '') {
-        previousValue = currentValue;
-    } else {
-
-        if (button.id == 'add') result = previousValue + currentValue;
-        if (button.id == 'subtract') result = previousValue - currentValue;
-        if (button.id == 'multiply') result = previousValue * currentValue;
-        if (button.id == 'divide') result = previousValue / currentValue;
-
-        previousOperand.textContent = result;
-        currentOperand.textContent = 0;
-    }
+    if (button.id == 'add') return result = previousValue + currentValue;
+    if (button.id == 'subtract') return result = previousValue - currentValue;
+    if (button.id == 'multiply') return result = previousValue * currentValue;
+    if (button.id == 'divide') return result = previousValue / currentValue;
 }
 
 function display(button) {
     if (currentOperand.textContent == 0 && button.classList.contains('number')) {
         currentOperand.textContent = button.textContent;
         currentValue = parseInt(currentOperand.textContent, 10);
-        console.log('Number or decimal clicked as first click: ' + button.textContent);
+        console.log('First click: ' + button.textContent);
+
     } else if (currentOperand.textContent != 0 && button.classList.contains('number')) {
         currentOperand.textContent += button.textContent;
         currentValue = parseInt(currentOperand.textContent, 10);
-        console.log('Number or decimal clicked as non-first click: ' + button.textContent);
-    } else if (button.classList.contains('operator')) {
-        previousOperand.textContent = currentValue + ' ' + button.textContent;
-        currentOperand.textContent = 0;
-        console.log('Operator clicked ' + button.textContent);
-    }
+        console.log('Non-first click: ' + button.textContent);
 
+    } else if (previousOperand.textContent == '' && button.classList.contains('operator')) {
+        previousOperand.textContent = currentValue + ' ' + button.textContent;
+        previousValue = parseInt(previousOperand.textContent, 10);
+        currentOperand.textContent = 0;
+        currentValue = 0;
+        console.log('Operator click: ' + button.textContent);
+
+    } else if (previousOperand != '' && button.classList.contains('operator')) {
+        console.log('Run Operate for Current: ' + currentValue + ' and Previous: ' + previousValue);
+        operate(button);
+        previousOperand.textContent = result;
+        previousValue = result;
+        currentOperand.textContent = 0;
+        currentValue = 0;
+        console.log('New Current: ' + currentValue + ' New Previous: ' + previousValue);
+    }
 }
 
 let currentValue;
@@ -55,6 +54,5 @@ number.forEach(button => {
 operator.forEach(button => {
     button.addEventListener('click', () => {
         display(button);
-        // operate(button);
     });
 });
